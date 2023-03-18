@@ -385,7 +385,7 @@
 >
 > **D类性能**不能接受的。
 
-# **MCU Failure Modes MCU故障模式***
+# **MCU Failure Modes MCU故障模式**
 
 > For MCUs, performance degradation can take many forms. Common forms oftemporary degradation include but are not limited to reset, latch-up,memory corruption, and code runaway.
 >
@@ -447,9 +447,9 @@
 
 **Next in Part 2: Hardware Techniques- The basic circuit building blocks 第二部分:硬件技术-基本电路构建块**
 
-Ross Carlton has specialized in all aspects of electromagnetic compatibility (EMC) since his graduation from Texas A&M University with a Bachelor of Science in Electrical Engineering in 1985. He has been with [Freescale Semiconductor](http://www.freescale.com/) for the last eight years where he has led the EMC design, test and support of Freescale's 8, 16, and 32-bit microcontroller products. In addition,Ross represents the U.S. as a Technical Expert to [IEC](http://www.iec.org/)Subcommittee 47Aon integrated circuits where he is the project leader for IEC 61967-2,IEC 61967-3 and IEC 62132-2**.** He is currently involved in developing transient immunity test methodologies for standardization.
+`Ross Carlton has specialized in all aspects of electromagnetic compatibility (EMC) since his graduation from Texas A&M University with a Bachelor of Science in Electrical Engineering in 1985. He has been with [Freescale Semiconductor](http://www.freescale.com/) for the last eight years where he has led the EMC design, test and support of Freescale's 8, 16, and 32-bit microcontroller products. In addition,Ross represents the U.S. as a Technical Expert to [IEC](http://www.iec.org/)Subcommittee 47Aon integrated circuits where he is the project leader for IEC 61967-2,IEC 61967-3 and IEC 62132-2**.** He is currently involved in developing transient immunity test methodologies for standardization.`
 
-*The author would like to thank* *Greg Racino and* *John Suchyta,* *8-Bit Applications Engineer at Freescale Semiconductor*  *for their inputs and guidance. Their contributions were critical to ensuring consistent and correct guidance.*
+`*The author would like to thank* *Greg Racino and* *John Suchyta,* *8-Bit Applications Engineer at Freescale Semiconductor*  *for their inputs and guidance. Their contributions were critical to ensuring consistent and correct guidance.`
 
 # **References:**
 
