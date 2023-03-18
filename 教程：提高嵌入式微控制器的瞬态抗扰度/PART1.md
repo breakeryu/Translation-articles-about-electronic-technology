@@ -210,31 +210,94 @@
 
 # **Areas of MCU Vulnerability MCU脆弱的地方**
 
-Considering that most MCUs are specified and designed to generate and respond to signals with rise times comparable to ESD and EFT events,vulnerability to these events should be expected. Areas of MCU's typically vulnerable to ESD and EFT stresses include:
+> Considering that most MCUs are specified and designed to generate and respond to signals with rise times comparable to ESD and EFT events, vulnerability to these events should be expected. 
+>
+> 考虑到大多数mcu是被指定和设计于生成和响应信号，而这些信号的上升时间是和ESD和EFT相当的，我们应该预料到这些情况的薄弱点。
+>
+> Areas of MCU's typically vulnerable to ESD and EFT stresses include:
+>
+> MCU通常易受ESD和EFT压力影响的地方包括:
 
-1) Power and ground pins
+> 1) Power and ground pins 电源和接地引脚
+>
+> 2. Edge sensitive digital inputs 数字输入的边沿干扰
+> 3. High frequency digital inputs 高频数字输入
+> 4. Analog inputs 模拟输入
+> 5. Clock (oscillator) pins 时钟（晶振）引脚
+> 6. *Substrate injection 基板内部干扰*
+> 7. General purpose I/O (GPIO) with multiplexed pin functions 引脚多路复用功能的通用I/O (GPIO)
+> 8. ESD protection circuitry ESD保护电路
+>
 
-2. Edge sensitive digital inputs
-3. High frequency digitalinputs
-4. Analog inputs
-5. Clock (oscillator) pins
-6. Substrate injection
-7. General purpose I/O (GPIO) with multiplexed pin functions
-8. ESD protection circuitry
+> Some MCUs have multiple power and ground pins to isolate high speed digital functions from low speed or noisy analog functions. 
+>
+> 一些MCU有多个电源和接地引脚，用来隔离高速数字功能和低速或有噪声的模拟功能。
+>
+> These supply pins should be filtered appropriately to prevent disturbances in one area from affecting another.
+>
+> 这些电源引脚应经过适当滤波，以防止一个区域的干扰影响到另一个区域。
 
-Some MCUs have multiple power and ground pins to isolate high speed digital functions from low speed or noisy analog functions. These supply pins should be filtered appropriately to prevent disturbances in one area from affecting another.
+> Low cost MCUs may only have a single set of power and ground pins, which makes isolation difficult, and makes filtering more important. 
+>
+> 低成本的MCU可能只有一组电源和接地引脚，（信号）隔离就变得困难，所以电源滤波就更加重要了。
+>
+> It is easy to understand that a transient that gets propagated to a supply line can also disrupt internal circuitry that has no direct route to the pin that was disturbed.
+>
+> 很容易理解，传播到供电线的瞬态干扰也可以破坏内部电路，而此时内部电路是没有直接连接到被干扰的引脚。（这说明，干扰可以通过影响电源线间接地影响系统的工作）
 
-Low cost MCUs may only have a single set of power and ground pins,which makes isolation difficult, and makes filtering more important. It is easy to understand that a transient that gets propagated to a supply line can also disrupt internal circuitry that has no direct route to the pin that was disturbed.
-
-Edge sensitive inputs are particularly vulnerable to transients. These inputs are usually timer or external interrupt inputs. Even with external low pass filtering a sufficiently large pulse can inject enough energy into the input area to disrupt MCU operation. Pulses that don't disrupt the MCU can still be seen as glitches by the MCU. (*A software technique to filter out glitches is discussed later in this series* ).
+> Edge sensitive inputs are particularly vulnerable to transients. 
+>
+> 输入的边沿信号特别容易受到瞬态干扰的影响。
+>
+> These inputs are usually timer or external interrupt inputs. 
+>
+> 这些输入通常是定时器或外部中断输入。
+>
+> Even with external low pass filtering， a sufficiently large pulse can inject enough energy into the input area to disrupt MCU operation. 
+>
+> 即使使用外部低通滤波器，一个大的脉冲也可以注入足够的能量到输入电路，从而扰乱MCU的操作。
+>
+> Pulses that don't disrupt the MCU can still be seen as glitches by the MCU. (*A software technique to filter out glitches is discussed later in this series* ).
+>
+> 没有扰乱MCU工作的脉冲仍然可以被MCU视为故障。(*本系列后面将讨论一种过滤故障的软件技术*)。
 
 ![img](https://img2023.cnblogs.com/blog/1423856/202303/1423856-20230315214941704-1802580139.png)
 
-High speed digital inputs, such as clock and data inputs, are less likely to have [**low pass filtering**](http://en.wikipedia.org/wiki/Low_pass_filter) and consequently can register transients as valid data pulses (**see Figure 2, above)** . External isolation techniques are necessary to eliminate this vulnerability.
+> High speed digital inputs, such as clock and data inputs, are less likely to have [**low pass filtering**](http://en.wikipedia.org/wiki/Low_pass_filter) and consequently can register transients as valid data pulses (**see Figure 2, above)** . 
+>
+> 高速数字输入，如时钟和数据输入，不太可能有[**低通滤波**](http://en.wikipedia.org/wiki/Low_pass_filter)，因此可以将瞬态干扰调整为有效的数据脉冲(**参见上图2)**。
+>
+> External isolation techniques are necessary to eliminate this vulnerability.
+>
+> 为消除这些干扰，必需做好外部的隔离。
 
-Analog inputs are generally lower impedance than digital inputs and can suffer physical damage if not protected during ESD and EFT transients. However, on most MCUs the analog inputs are multiplexed with general purpose I/O pins and have a small sampling window in which the lower input impedance is active. A transient appearing in an analog input pin during an analog to digital conversion will result in distorted data due to the signal disruption. Effective software filtering techniques exist to mitigate this vulnerability.
+> Analog inputs are generally lower impedance than digital inputs and can suffer physical damage if not protected during ESD and EFT transients. 
+>
+> 模拟输入通常比数字输入阻抗低，如果在ESD和EFT瞬态过程中没有保护，可能会遭受物理损坏。
+>
+> However, on most MCUs the analog inputs are multiplexed with general purpose I/O pins and have a small sampling window in which the lower input impedance is active.
+>
+> 然而，在大多数MCU上，模拟输入与通用I/O引脚进行多路复用，并且有一个小的采样窗口，这时使用了较低的输入阻抗。
+>
+>  A transient appearing in an analog input pin during an analog to digital conversion will result in distorted data due to the signal disruption. 
+>
+> 在模拟到数字转换过程中，模拟输入引脚中出现的瞬态干扰，会扰乱信号而导致数据失真。
+>
+> Effective software filtering techniques exist to mitigate this vulnerability.
+>
+> 设计有效的软件滤波技术可以减轻此干扰。
 
-Most MCUs have a built-in oscillator amplifier so that an external crystal or resonator is all that is needed to ensure a stable high frequency system clock. The oscillator pins can pass noise pulses as valid clock edges and are considered to be the most vulnerable inputs to the system. Appropriate PCB layout is the preferred method to eliminate this risk.
+> Most MCUs have a built-in oscillator amplifier so that an external crystal or resonator is all that is needed to ensure a stable high frequency system clock. 
+>
+> 大多数MCU都有一个内置的振荡器放大器，这样就需要一个外部晶体或谐振器来确保稳定的高频系统时钟。
+>
+> The oscillator pins can pass noise pulses as valid clock edges and are considered to be the most vulnerable inputs to the system. 
+>
+> 振荡器引脚可以通过带有噪声的脉冲作为有效的时钟边沿，被认为是系统最脆弱的输入点。
+>
+> Appropriate PCB layout is the preferred method to eliminate this risk.
+>
+> 适当的PCB布局是消除这种风险的首选方法。
 
 ![f3](https://img2023.cnblogs.com/blog/1423856/202303/1423856-20230315215012522-2031200219.png)
 
