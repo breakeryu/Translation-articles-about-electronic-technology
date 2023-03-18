@@ -212,8 +212,8 @@
 
 > Considering that most MCUs are specified and designed to generate and respond to signals with rise times comparable to ESD and EFT events, vulnerability to these events should be expected. 
 >
-> 考虑到大多数mcu是被指定和设计于生成和响应信号，而这些信号的上升时间是和ESD和EFT相当的，我们应该预料到这些情况的薄弱点。
->
+> 考虑到大多数MCU是被指定和设计于生成和响应信号，而这些信号的上升时间是和ESD和EFT相当的，我们应该预料到这些情况的薄弱点。
+
 > Areas of MCU's typically vulnerable to ESD and EFT stresses include:
 >
 > MCU通常易受ESD和EFT压力影响的地方包括:
@@ -232,7 +232,7 @@
 > Some MCUs have multiple power and ground pins to isolate high speed digital functions from low speed or noisy analog functions. 
 >
 > 一些MCU有多个电源和接地引脚，用来隔离高速数字功能和低速或有噪声的模拟功能。
->
+
 > These supply pins should be filtered appropriately to prevent disturbances in one area from affecting another.
 >
 > 这些电源引脚应经过适当滤波，以防止一个区域的干扰影响到另一个区域。
@@ -240,7 +240,7 @@
 > Low cost MCUs may only have a single set of power and ground pins, which makes isolation difficult, and makes filtering more important. 
 >
 > 低成本的MCU可能只有一组电源和接地引脚，（信号）隔离就变得困难，所以电源滤波就更加重要了。
->
+
 > It is easy to understand that a transient that gets propagated to a supply line can also disrupt internal circuitry that has no direct route to the pin that was disturbed.
 >
 > 很容易理解，传播到供电线的瞬态干扰也可以破坏内部电路，而此时内部电路是没有直接连接到被干扰的引脚。（这说明，干扰可以通过影响电源线间接地影响系统的工作）
@@ -248,15 +248,15 @@
 > Edge sensitive inputs are particularly vulnerable to transients. 
 >
 > 输入的边沿信号特别容易受到瞬态干扰的影响。
->
+
 > These inputs are usually timer or external interrupt inputs. 
 >
 > 这些输入通常是定时器或外部中断输入。
->
+
 > Even with external low pass filtering， a sufficiently large pulse can inject enough energy into the input area to disrupt MCU operation. 
 >
 > 即使使用外部低通滤波器，一个大的脉冲也可以注入足够的能量到输入电路，从而扰乱MCU的操作。
->
+
 > Pulses that don't disrupt the MCU can still be seen as glitches by the MCU. (*A software technique to filter out glitches is discussed later in this series* ).
 >
 > 没有扰乱MCU工作的脉冲仍然可以被MCU视为故障。(*本系列后面将讨论一种过滤故障的软件技术*)。
@@ -266,7 +266,7 @@
 > High speed digital inputs, such as clock and data inputs, are less likely to have [**low pass filtering**](http://en.wikipedia.org/wiki/Low_pass_filter) and consequently can register transients as valid data pulses (**see Figure 2, above)** . 
 >
 > 高速数字输入，如时钟和数据输入，不太可能有[**低通滤波**](http://en.wikipedia.org/wiki/Low_pass_filter)，因此可以将瞬态干扰调整为有效的数据脉冲(**参见上图2)**。
->
+
 > External isolation techniques are necessary to eliminate this vulnerability.
 >
 > 为消除这些干扰，必需做好外部的隔离。
@@ -274,15 +274,15 @@
 > Analog inputs are generally lower impedance than digital inputs and can suffer physical damage if not protected during ESD and EFT transients. 
 >
 > 模拟输入通常比数字输入阻抗低，如果在ESD和EFT瞬态过程中没有保护，可能会遭受物理损坏。
->
+
 > However, on most MCUs the analog inputs are multiplexed with general purpose I/O pins and have a small sampling window in which the lower input impedance is active.
 >
 > 然而，在大多数MCU上，模拟输入与通用I/O引脚进行多路复用，并且有一个小的采样窗口，这时使用了较低的输入阻抗。
->
->  A transient appearing in an analog input pin during an analog to digital conversion will result in distorted data due to the signal disruption. 
+
+> A transient appearing in an analog input pin during an analog to digital conversion will result in distorted data due to the signal disruption. 
 >
 > 在模拟到数字转换过程中，模拟输入引脚中出现的瞬态干扰，会扰乱信号而导致数据失真。
->
+
 > Effective software filtering techniques exist to mitigate this vulnerability.
 >
 > 设计有效的软件滤波技术可以减轻此干扰。
@@ -290,57 +290,162 @@
 > Most MCUs have a built-in oscillator amplifier so that an external crystal or resonator is all that is needed to ensure a stable high frequency system clock. 
 >
 > 大多数MCU都有一个内置的振荡器放大器，这样就需要一个外部晶体或谐振器来确保稳定的高频系统时钟。
->
+
 > The oscillator pins can pass noise pulses as valid clock edges and are considered to be the most vulnerable inputs to the system. 
 >
 > 振荡器引脚可以通过带有噪声的脉冲作为有效的时钟边沿，被认为是系统最脆弱的输入点。
->
+
 > Appropriate PCB layout is the preferred method to eliminate this risk.
 >
 > 适当的PCB布局是消除这种风险的首选方法。
 
 ![f3](https://img2023.cnblogs.com/blog/1423856/202303/1423856-20230315215012522-2031200219.png)
 
-As shown in **Figure 3 above** ,transients can travel from the point of entry and affect circuits via several paths. System input signals that exceed the power rails of the MCU will inject current into the I/O pin structure as soon as the signal level exceeds the ESD protection diode's forward voltage.
+> As shown in **Figure 3 above** , transients can travel from the point of entry and affect circuits via several paths. 
+>
+> 如图3所示，瞬态干扰可以从输入点通过多条路径影响电路。
 
-The I/O pin structure and on chip ESD protection network can dissipate small amounts of injected energy. However, if the injected current is greater than the local circuit can handle, this excessive current can find alternate paths through the supply rails or substrate to disrupt other circuitry. Current injection is generally minimized by using series resistors.
+> System input signals that exceed the power rails of the MCU will inject current into the I/O pin structure as soon as the signal level exceeds the ESD protection diode's forward voltage.
+>
+> 那些超过MCU电源轨道的输入到系统的信号，一旦信号电平超过ESD保护二极管的正向电压，就会向I/O引脚结构注入电流。
 
-General purpose MCUs have I/O ports that can have more that one function multiplexed on a single pin. An electrical disturbance that causes enough energy to disrupt digital logic can also affect the control circuitry that selects the pin function. The resulting fault could change the pin state, the pin directionality, or the pin function.
+> The I/O pin structure and on chip ESD protection network can dissipate small amounts of injected energy. 
+>
+> I/O引脚的结构和片上ESD保护网络可以耗散少量的注入能量。
 
-Vulnerability is particularly troublesome for general purpose MCUs that are designed to meet the needs of many applications. For these MCUs, it is impractical or impossible to harden all vulnerable areas without adversely affecting functional performance in at least some applications.
+> However, if the injected current is greater than the local circuit can handle, this excessive current can find alternate paths through the supply rails or substrate to disrupt other circuitry. 
+>
+> 但是，如果注入的电流大于了本地电路所能处理的（电流），这种过量的电流会找备用路径流过——这些电流就流过供应电源轨道或基板，干扰了其他电路。
 
-Application-specific MCUs can be hardened with greater success, but some vulnerability will continue to exist if the operational frequency or bandwidth of the MCU overlaps the bandwidth of the ESD and EFT signals.
+> Current injection is generally minimized by using series resistors.
+>
+> 最小化注入电流影响通常通过使用串联电阻解决。
 
-# **MCU Immunity Performance Classification**
+> General purpose MCUs have I/O ports that can have more that one function multiplexed on a single pin. 
+>
+> 通用MCU具有I/O端口，可以在单个引脚上多路复用多个功能。
 
-The immunity performance for integrated circuits is typically classified into one of four categories as specified in [**IEC 62132-1**](http://webstore.iec.ch/webstore/webstore.nsf/artnum/035451) and shown in **Table 1 below** .
+> An electrical disturbance that causes enough energy to disrupt digital logic can also affect the control circuitry that selects the pin function. 
+>
+> 那些带有能够扰乱数字逻辑的能量的电气干扰，也会影响到选择引脚功能的控制电路。
 
-The classification applied is determined by the performance of the integrated circuit in the presence of the disturbance signal (i.e the ESD or EFT waveform). This performance is dependent on the type of integrated circuit and its functional and parametric operation as documented in its data sheet.
+> The resulting fault could change the pin state, the pin directionality, or the pin function.
+>
+> 由此产生的故障可能会改变引脚状态、引脚方向或引脚功能。
+
+> Vulnerability is particularly troublesome for general purpose MCUs that are designed to meet the needs of many applications. 
+>
+> 对于被设计来满足多种应用需求的通用MCU来说，易受干扰是尤其麻烦的。
+
+> For these MCUs, it is impractical or impossible to harden all vulnerable areas without adversely affecting functional performance in at least some applications.
+>
+> 对于这些MCU来说，至少在某些应用中，在不影响功能性能的情况下，加固所有易受干扰的区域是不切实际或不可能的。
+
+> Application-specific MCUs can be hardened with greater success, but some vulnerability will continue to exist if the operational frequency or bandwidth of the MCU overlaps the bandwidth of the ESD and EFT signals.
+>
+> 特定应用的MCU可以更好的被加强（防干扰的能力），但是，如果MCU的工作频率或带宽与ESD和EFT信号的带宽重叠，那么一些干扰将继续存在。
+
+# **MCU Immunity Performance Classification 单片机免疫性能分类**
+
+> The immunity performance for integrated circuits is typically classified into one of four categories as specified in [**IEC 62132-1**](http://webstore.iec.ch/webstore/webstore.nsf/artnum/035451) and shown in **Table 1 below** .
+>
+> 集成电路的抗扰性能通常分为[**IEC 62132-1**](http://webstore.iec.ch/webstore/webstore.nsf/artnum/035451)中规定的四类之一，并在下面的**表1中**所示。
+
+> The classification applied is determined by the performance of the integrated circuit in the presence of the disturbance signal (i.e the ESD or EFT waveform). 
+>
+> 该分类是由集成电路在干扰信号(即ESD或EFT波形)存在时的性能表现决定的。
+
+> This performance is dependent on the type of integrated circuit and its functional and parametric operation as documented in its data sheet.
+>
+> 这种性能取决于集成电路的类型及其数据表中的功能和参数。
 
 ![t1](https://img2023.cnblogs.com/blog/1423856/202303/1423856-20230315215045532-1160321108.png)
 
-**Class A performance** is the most desirable and is often required for safety-critical applications. Of course, this level of performance is difficult to ensure without taking proper steps in the design of the application. This is because any transient appearing at a pin that can be processed by the input circuitry has the potential for being interpreted as data and corrupting program execution.
+> **Class A performance** is the most desirable and is often required for safety-critical applications. 
+>
+> **A类性能**是最理想的，通常应用于关键安全领域。
 
-**Class B performance** is considered acceptable for most applications where the main requirement is for no user intervention to recover nor malperformance. **Class C performance** can be acceptable for particular applications where operator intervention is not an issue, or where an external watchdog or supervisory circuit is used. **Class D performance** is not acceptable.
+> Of course, this level of performance is difficult to ensure without taking proper steps in the design of the application. 
+>
+> 当然，如果在应用程序的设计中不采取适当的步骤，就很难保证这种级别的性能。
 
-**MCU Failure Modes**
-For MCUs, performance degradation can take many forms. Common forms oftemporary degradation include but are not limited to reset, latch-up,memory corruption, and code runaway.
+> This is because any transient appearing at a pin that can be processed by the input circuitry has the potential for being interpreted as data and corrupting program execution.
+>
+> 这是因为在输入电路的引脚上出现的任何瞬态干扰，被处理后都有可能被理解为数据，并影响程序执行。
 
-MCUs with internal reset circuits can generally resume operation without operator involvement if the fault is an unexpected reset orcode runaway that is caught by a watchdog timer.
+> **Class B performance** is considered acceptable for most applications where the main requirement is for no user intervention to recover normal performance. 
+>
+> **B类性能**被认为是大多数应用程序可以接受的，主要应用是免除用户去恢复到正常性能。
 
-Recovery from latch-up and volatile memory (RAM, DRAM, etc.)corruption requires cycling the power to the system. Non-volatile memory (FLASH, EEPROM, ROM, etc.) corruption requires a more extensive process of re-programming the system, which can be viewed as a temporary MCU degradation if the system can be re-worked, or as a permanent degradation if it cannot be re-worked.
+> **Class C performance** can be acceptable for particular applications where operator intervention is not an issue, or where an external watchdog or supervisory circuit is used. 
+>
+> **C类性能**可用于操作员可以进行干预的，或使用外部看门狗或监控电路的特定应用。
 
-Permanent degradation can include increased leakage current on I/O pins which can affect analog measurements, input impedances, and output drive strength. With increased leakage current, the electronic system may still operate within specification for a while, but it may ultimately fail due to damage from the transient stress. Another type of permanent degradation found in transient environments is blown pins due to an electrical overstress.
+> **Class D performance** is not acceptable.
+>
+> **D类性能**不能接受的。
 
-# **Impact of MCU Design Trends**
+# **MCU Failure Modes MCU故障模式***
 
-The MCU design trend that particularly impacts transient immunity performance is the drive to continually reduce the minimum gate length of individual field effect transistors (FETs), making them smaller and faster. This trend is the result of market pressure on semiconductor manufacturers to reduce the cost of their products by making die sizes smaller.
+> For MCUs, performance degradation can take many forms. Common forms oftemporary degradation include but are not limited to reset, latch-up,memory corruption, and code runaway.
+>
+> 对于微控制器来说，性能下降可以有多种形式。常见的临时降级形式包括但不限于重置、锁存、内存损坏和代码失控。
 
-The result is that maintaining the immunity performance of MCUs in the face of process technology advances is becoming increasingly difficult. When coupled with continuing cost reductions by OEMs at the application or system level, the immunity problem becomes severe.
+> MCUs with internal reset circuits can generally resume operation without operator involvement if the fault is an unexpected reset or code runaway that is caught by a watchdog timer.
+>
+> 如果故障是由看门狗定时器捕捉到的意外复位或代码失控，带有内部复位电路的MCU，通常可以在没有操作员干预的情况下恢复正常工作。
 
-MCU designers are challenged to develop better methods to dissipate the energy injected during a transient event. While they would appreciate more area in which to include transient suppression circuits, this is generally not allowed in order to keep the die size and cost to a minimum. Some of the remaining options available to the designer include modifying semiconductor attributes (doping and materials) and changing the vertical structure of the I/O pin.
+> Recovery from latch-up and volatile memory (RAM, DRAM, etc.) corruption requires cycling the power to the system. 
+>
+> 从锁存和易失性内存(RAM、DRAM等)损坏中恢复，需要对系统重启供电。
 
-**Next in Part 2: Hardware Techniques- The basic circuit building blocks**
+> Non-volatile memory (FLASH, EEPROM, ROM, etc.) corruption requires a more extensive process of re-programming the system, which can be viewed as a temporary MCU degradation if the system can be re-worked, or as a permanent degradation if it cannot be re-worked.
+>
+> 非易失性存储器(FLASH、EEPROM、ROM等)损坏需要对系统重新编程的更复杂的过程，如果系统可以重新工作，则可以将其视为暂时的MCU损坏，如果不能重新工作，则将其视为永久损坏。
+
+> Permanent degradation can include increased leakage current on I/O pins which can affect analog measurements, input impedances, and output drive strength. 
+>
+> 永久损坏可能包括I/O引脚上的泄漏电流的增加，这会影响模拟的测量、输入阻抗和输出驱动强度。
+
+> With increased leakage current, the electronic system may still operate within specification for a while, but it may ultimately fail due to damage from the transient stress. 
+>
+> 随着漏电流的增加，电子系统仍可在规范范围内工作一段时间，但最终可能因瞬态干扰的压力而损坏。
+
+> Another type of permanent degradation found in transient environments is blown pins due to an electrical overstress.
+>
+> 在瞬态干扰环境中发现的另一种永久性损坏是由于过压引起的引脚爆炸。
+
+# **Impact of MCU Design Trends MCU设计趋势的影响**
+
+> The MCU design trend that particularly impacts transient immunity performance is the drive to continually reduce the minimum gate length of individual field effect transistors (FETs), making them smaller and faster. 
+>
+> 特别是影响到瞬态抗扰度性能的MCU设计的趋势，是驱使着不断地减小单个场效应晶体管(FET)的最小栅极长度，使它们更小、更快。
+
+> This trend is the result of market pressure on semiconductor manufacturers to reduce the cost of their products by making die sizes smaller.
+>
+> 这一趋势是市场竞争的结果，半导体制造商通过缩小产品的尺寸来降低成本。
+
+> The result is that maintaining the immunity performance of MCUs in the face of process technology advances is becoming increasingly difficult. 
+>
+> 结果是，面对工艺技术的进步，保持MCU的抗扰性能变得越来越困难。
+
+> When coupled with continuing cost reductions by OEMs at the application or system level, the immunity problem becomes severe.
+>
+> 当再加上原始设备制造商在应用程序或系统层面上不断降低成本，免疫问题就会变得非常严重。
+
+> MCU designers are challenged to develop better methods to dissipate the energy injected during a transient event. 
+>
+> MCU设计人员面临的挑战是找到更好的方法来耗散瞬态干扰注入的能量。
+
+> While they would appreciate more area in which to include transient suppression circuits, this is generally not allowed in order to keep the die size and cost to a minimum. 
+>
+> 虽然他们希望在更多的区域包含瞬态抑制电路，但为了使尺寸和成本最小化，这通常是不允许的。
+
+> Some of the remaining options available to the designer include modifying semiconductor attributes (doping and materials) and changing the vertical structure of the I/O pin.
+>
+> 对于设计师可选的一些剩余选项，包括修改半导体属性(掺杂和更换材料)和改变I/O引脚的垂直结构。
+
+**Next in Part 2: Hardware Techniques- The basic circuit building blocks 第二部分:硬件技术-基本电路构建块**
 
 Ross Carlton has specialized in all aspects of electromagnetic compatibility (EMC) since his graduation from Texas A&M University with a Bachelor of Science in Electrical Engineering in 1985. He has been with [Freescale Semiconductor](http://www.freescale.com/) for the last eight years where he has led the EMC design, test and support of Freescale's 8, 16, and 32-bit microcontroller products. In addition,Ross represents the U.S. as a Technical Expert to [IEC](http://www.iec.org/)Subcommittee 47Aon integrated circuits where he is the project leader for IEC 61967-2,IEC 61967-3 and IEC 62132-2**.** He is currently involved in developing transient immunity test methodologies for standardization.
 
