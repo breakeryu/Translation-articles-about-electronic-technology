@@ -102,7 +102,7 @@
 
 > To meet the transient immunity challenge as traditional power supply designs and EMI controls are sacrificed for lower cost solutions, the embedded systems designers must employ new techniques and processes to meet the applicable regulatory and market requirements for **[electromagnetic compatibility (EMC)](http://en.wikipedia.org/wiki/Electromagnetic_compatibility)** .
 >
-> 为了满足抗瞬态扰性的需求，传统的电源设计和EMI控制就牺牲了低成本的解决方案，嵌入式系统设计人员必须采用新的技术和工艺，以满足适用的法规和市场要求的**[电磁兼容性(EMC) ](http://en.wikipedia.org/wiki/Electromagnetic_compatibility)**。
+> 为了满足抗瞬态扰性的需求，传统的电源设计和EMI控制就牺牲了低成本的解决方案，嵌入式系统设计人员必须采用新的技术和工艺，以满足适用的法规和市场要求的**[电磁兼容性(EMC)](http://en.wikipedia.org/wiki/Electromagnetic_compatibility)**。
 
 > Achieving transient immunity in a low-cost embedded application can be a difficult and time-consuming process, particularly if not addressed early and often in the design of an application. 
 >
@@ -218,7 +218,7 @@
 >
 > MCU通常易受ESD和EFT压力影响的地方包括:
 
-> 1) Power and ground pins 电源和接地引脚
+> 1. Power and ground pins 电源和接地引脚
 >
 > 2. Edge sensitive digital inputs 数字输入的边沿干扰
 > 3. High frequency digital inputs 高频数字输入
@@ -447,9 +447,11 @@
 
 **Next in Part 2: Hardware Techniques- The basic circuit building blocks 第二部分:硬件技术-基本电路构建块**
 
-`Ross Carlton has specialized in all aspects of electromagnetic compatibility (EMC) since his graduation from Texas A&M University with a Bachelor of Science in Electrical Engineering in 1985. He has been with [Freescale Semiconductor](http://www.freescale.com/) for the last eight years where he has led the EMC design, test and support of Freescale's 8, 16, and 32-bit microcontroller products. In addition,Ross represents the U.S. as a Technical Expert to [IEC](http://www.iec.org/)Subcommittee 47Aon integrated circuits where he is the project leader for IEC 61967-2,IEC 61967-3 and IEC 62132-2**.** He is currently involved in developing transient immunity test methodologies for standardization.`
 
-`*The author would like to thank* *Greg Racino and* *John Suchyta,* *8-Bit Applications Engineer at Freescale Semiconductor*  *for their inputs and guidance. Their contributions were critical to ensuring consistent and correct guidance.`
+
+> Ross Carlton has specialized in all aspects of electromagnetic compatibility (EMC) since his graduation from Texas A&M University with a Bachelor of Science in Electrical Engineering in 1985. He has been with [Freescale Semiconductor](http://www.freescale.com/) for the last eight years where he has led the EMC design, test and support of Freescale's 8, 16, and 32-bit microcontroller products. In addition,Ross represents the U.S. as a Technical Expert to [IEC](http://www.iec.org/)Subcommittee 47Aon integrated circuits where he is the project leader for IEC 61967-2,IEC 61967-3 and IEC 62132-2**.** He is currently involved in developing transient immunity test methodologies for standardization.
+>
+> The author would like to thank Greg Racino and John Suchyta, 8-Bit Applications Engineer at Freescale Semiconductor for their inputs and guidance. Their contributions were critical to ensuring consistent and correct guidance.
 
 # **References:**
 
